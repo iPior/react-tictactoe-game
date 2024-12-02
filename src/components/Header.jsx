@@ -2,10 +2,10 @@
 export default function Header() {
   
   return (
-    <>
-      <h1>
-        hello
-      </h1>
-    </>
+    <header
+      className="w-full h-1/6 p-4 bg-blue-300"
+    >
+      testing
+    </header>
   )
 }
