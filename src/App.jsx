@@ -1,6 +1,6 @@
 import './App.css'
 import Header from './components/Header'
-import ChessBoard from './components/ChessBoard'
+import MainSection from './components/MainSection'
 import Footer from './components/Footer'
 import './index.css'
 
@@ -12,7 +12,7 @@ export default function App() {
       "
     >
       <Header />
-      <ChessBoard />
+      <MainSection />
       <Footer></Footer>
     </div>
   )

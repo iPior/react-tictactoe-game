@@ -1,6 +1,6 @@
 
 
-export default function LostChessPieces() {
+export default function StandbyPieces() {
   
     return (
       <div
