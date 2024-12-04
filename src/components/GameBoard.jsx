@@ -7,7 +7,7 @@ export default function GameBoard() {
   ))
   
   return (
-    <div className="sm:w-2/3 my-4 sm:my-0 sm:mx-4 h-4/6 sm:h-full grid grid-cols-3 gap-1 border rounded-lg">
+    <div className="sm:w-2/3 my-4 sm:my-0 sm:mx-4 h-4/6 sm:h-full grid grid-cols-3 gap-1 rounded-lg border-2 p-1 border-dark">
         {gridElements}
     </div>
   )

@@ -3,9 +3,9 @@ export default function Header() {
   
   return (
     <header
-      className="w-full p-4 bg-blue-300"
+      className="w-full p-4 text-dark"
     >
-      <h1 className="text-3xl mb-2">
+      <h1 className="text-4xl mb-2 font-bold ">
         A Game of Tic Tac Toe v.s Claude
       </h1>
       <p className="mx-auto max-w-2xl text-center">
