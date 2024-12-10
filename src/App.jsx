@@ -10,7 +10,7 @@ export default function App() {
     
     <div
       className="relative h-screen w-full flex flex-col sm:my-24 align-middle justify-center shadow-2xl rounded-3xl p-4 
-      border-2 border-opacity-15 border-black
+      border-4 border-opacity-20 border-dark
       "
     >
       <div className='h-screen'>
