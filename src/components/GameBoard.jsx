@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faX } from '@fortawesome/free-solid-svg-icons'
 
 export default function GameBoard(props) {
 
@@ -12,11 +14,13 @@ export default function GameBoard(props) {
   const gridElements = props.gameStateArray.map((cell, index) => (
     
       <button 
-          className="flex items-center justify-center bg-tertiary rounded-lg border-2 border-dark hover:enabled:bg-secondary"
+          className="flex items-center justify-center bg-tertiary border-2 border-dark hover:enabled:bg-secondary font-weight-bold box-border"
           key={index}
           onClick={() => props.update(index)}
+          value={cell}
       >
-        {cell === "-" ? null : cell} 
+        {/* hard code the pixel values */}
+        {cell}
       </button> 
 
   ))
@@ -24,7 +28,7 @@ export default function GameBoard(props) {
   
   
   return (
-    <div className="sm:w-2/3 my-4 sm:my-0 sm:mx-4 h-4/6 sm:h-full grid grid-cols-3 gap-1 rounded-lg border-2 p-1 border-dark">
+    <div className="sm:w-2/3 my-2 sm:my-0 sm:mx-4 grid grid-cols-3 gap-1 rounded-lg bg-dark">
         {gridElements}
     </div>
   )

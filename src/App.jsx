@@ -9,15 +9,13 @@ export default function App() {
   return (
     
     <div
-      className="relative h-screen w-full flex flex-col sm:my-24 align-middle justify-center shadow-2xl rounded-3xl p-4 
+      className="relative h-screen w-full flex flex-col align-middle justify-center shadow-2xl rounded-3xl p-4 
       border-4 border-opacity-20 border-dark
       "
     >
-      <div className='h-screen'>
         <Header />
         <MainSection />
         <Footer/>
-      </div>
     </div>
   )
 }
