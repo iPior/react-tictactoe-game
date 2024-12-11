@@ -20,7 +20,7 @@ export default function MainSection() {
   
   return (
     <div
-      className="w-full my-2 h-4/6 flex flex-col sm:flex-row sm:justify-center bg-yellow-200"
+      className=" w-full my-2 h-1/2 sm:h-full flex flex-col sm:flex-row sm:justify-center items-center"
     >
       {/* <StandbyPieces/> */}
       <GameBoard 

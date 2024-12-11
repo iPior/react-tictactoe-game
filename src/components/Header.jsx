@@ -3,7 +3,7 @@ export default function Header() {
   
   return (
     <header
-      className="w-full p-4 text-dark"
+      className="w-full p-4 text-dark text-center mt-0 mb-2 sm:mt-4 my-auto flex flex-col items-center"
     >
       <h1 className="text-xl sm:text-4xl mb-2 font-bold ">
         A Game of Tic Tac Toe v.s Claude
