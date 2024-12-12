@@ -8,7 +8,11 @@ import { faX, faO } from '@fortawesome/free-solid-svg-icons'
 export default function MainSection() {
   const [gameState, setGameState] = useState([" "," "," "," "," "," "," "," "," "]);
   const [playersTurn, setPlayersTurn] = useState(true)
+  const [isGameWon, setIsGameWon] = useState(false)
 
+  function checkWin() {
+    
+  }
 
 
   function updateGameboard(index) {
@@ -18,6 +22,7 @@ export default function MainSection() {
       return newArray
     })
     setPlayersTurn(!playersTurn)
+    checkWin(gameState)
   }
   
   return (
