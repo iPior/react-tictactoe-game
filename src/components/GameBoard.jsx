@@ -29,7 +29,7 @@ export default function GameBoard(props) {
   
   
   return (
-    <div className="h-full sm:h-5/6 sm:w-5/6 my-2 sm:my-0 sm:mx-4 flex rounded-lg bg-dark flex-wrap">
+    <div className="h-full sm:h-5/6 w-full sm:w-5/6 my-2 sm:my-0 sm:mx-4 flex rounded-lg bg-dark flex-wrap">
         {gridElements}
     </div>
   )
