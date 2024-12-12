@@ -1,31 +1,28 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faX } from '@fortawesome/free-solid-svg-icons'
+import { faX, faO } from '@fortawesome/free-solid-svg-icons'
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge'
+
+
 
 export default function GameBoard(props) {
-
-  // const gridElements = Array.from({ length: 9 }, (_, index) => (
-  //   <button 
-  //       className="flex items-center justify-center bg-tertiary rounded-lg border-2 border-dark hover:bg-secondary"
-  //       key={index}
-  //   >
-  //   </button>
-  // ))
 
   const gridElements = props.gameStateArray.map((cell, index) => (
     
       <button 
-          className="flex items-center justify-center bg-tertiary border-2 border-dark hover:enabled:bg-secondary font-weight-bold box-border
-          h-1/3 w-1/3"
+          className={twMerge("flex items-center justify-center bg-tertiary border-2 border-dark hover:enabled:bg-secondary font-weight-bold box-border h-1/3 w-1/3", 
+            clsx()
+          )}
           key={index}
           onClick={() => props.update(index)}
           value={cell}
+          disabled={props.isGameWon}
       >
         {/* hard code the pixel values */}
-        {cell}
+        {cell === "" ? null : <FontAwesomeIcon icon={cell === 'x' ? faX : faO} className='text-5xl sm:text-8xl text-dark'/>}
       </button> 
 
   ))
-
   
   
   return (

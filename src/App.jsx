@@ -13,9 +13,9 @@ export default function App() {
       border-4 border-opacity-20 border-dark
       "
     >
-        <Header />
-        <MainSection />
-        <Footer/>
+      <Header />
+      <MainSection />
+      <Footer/>
     </div>
   )
 }
