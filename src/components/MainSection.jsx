@@ -1,4 +1,3 @@
-import StandbyPieces from "./StandbyPieces"
 import GameBoard from "./GameBoard"
 import { useState, useEffect } from "react"
 
@@ -43,14 +42,14 @@ export default function MainSection() {
   
   return (
     <div
-      className=" w-full my-2 h-1/2 sm:h-full flex flex-col sm:justify-center items-center"
+      className=" w-full my-2 py-4 max-sm:h-full flex flex-col sm:justify-center items-center"
     >
 
       {isGameWon && (
-        <div className="text-center text-6xl font-bold">{playersTurn ? "Player O wins!" : "Player X wins!"}</div>
+        <div className="text-center text-3xl sm:text-5xl font-bold sm:mb-4">{playersTurn ? "Player O wins!" : "Player X wins!"}</div>
       )}
       {!isGameWon && (
-        <div className="text-center text-6xl font-bold">
+        <div className="text-center text-3xl sm:text-5xl font-bold mb-2 sm:mb-4">
           {playersTurn? "Your turn" : "Claude's turn"}
         </div>
       )}
@@ -61,10 +60,9 @@ export default function MainSection() {
         isGameWon={isGameWon}
       />
       {isGameWon && (
-        <button className="mt-4 w-48 sm:w-96 bg-dark text-white font-bold hover:bg-secondary" onClick={() => window.location.reload()}>Play again</button>
+        <button className=" w-full sm:m-4 sm:w-48 bg-dark text-2xl p-4 text-white font-bold hover:bg-tertiary hover:text-dark" onClick={() => window.location.reload()}>PLAY AGAIN</button>
 
       )}
-      {/* <StandbyPieces /> */}
     </div>
   )
 } 
