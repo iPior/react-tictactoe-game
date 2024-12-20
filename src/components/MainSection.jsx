@@ -3,41 +3,67 @@ import { useState, useEffect } from "react"
 
 export default function MainSection() {
   const [gameState, setGameState] = useState(["","","","","","","","",""]);
+  const [winningElements, setWinningElements] = useState([]);
   const [playersTurn, setPlayersTurn] = useState(true)
   const [isGameWon, setIsGameWon] = useState(false)
+  const [isGameDrawn, setIsGameDrawn] = useState(false)
 
   useEffect(() => {
+    checkDraw()
     checkWin()
   }, [gameState])
 
+  function checkDraw() {
+    let emptyCells = gameState.filter(cell => cell === "").length
+    if (emptyCells === 0 &&!isGameWon) {
+      setIsGameDrawn(true)
+    }
+  }
+
   function checkWin() {
     // check diagonal
-    if (gameState[0] !== "" && gameState[0] === gameState[4] && gameState[4] === gameState[8] || gameState[2] !== "" && gameState[2] === gameState[4] && gameState[4] === gameState[6]){
+    if (gameState[0] !== "" && gameState[0] === gameState[4] && gameState[4] === gameState[8]){
       setIsGameWon(true)
+      setWinningElements([0, 4, 8])
+      return
+    }
+    if (gameState[2] !== "" && gameState[2] === gameState[4] && gameState[4] === gameState[6]){
+      setIsGameWon(true)
+      setWinningElements([2, 4, 6])
       return
     }
     // check horizontal / vertical
     for (let i = 0; i <= 2; i++){
-      if (gameState[i] !== "") {
-        if (gameState[i] === gameState[i+1] && gameState[i+1] === gameState[i+2]){
-          setIsGameWon(true)
-          return 
-        }
-        else if (gameState[i] === gameState[i+3] && gameState[i+3] === gameState[i+6]){
-          setIsGameWon(true)
-          return 
-        }
+      if (gameState[(3*i)] === gameState[(3*i)+1] && gameState[(3*i)+1] === gameState[(3*i)+2] && gameState[(3*i)+2] !== ""){
+        setIsGameWon(true)
+        setWinningElements([(3*i), (3*i)+1, (3*i)+2])
+        return 
+      }
+      else if (gameState[i] === gameState[i+3] && gameState[i+3] === gameState[i+6] && gameState[i+6] !== ""){
+        setIsGameWon(true)
+        setWinningElements([i, i+3, i+6])
+        return 
       }
     }
   }
 
   function updateGameboard(index) {
-    setGameState(prev => {
-      const newArray = [... prev]
-      newArray[index] = playersTurn ? "x" : "o"
-      return newArray
-    })
-    setPlayersTurn(!playersTurn)
+    if (gameState[index] === "") {
+      setGameState(prev => {
+        const newArray = [... prev]
+        newArray[index] = playersTurn ? "x" : "o"
+        return newArray
+      })
+      setPlayersTurn(!playersTurn)
+    }
+  }
+
+  function resetGame() {
+    setGameState(["","","","","","","","",""])
+    setPlayersTurn(true)
+    setIsGameWon(false)
+    setIsGameDrawn(false)
+    setWinningElements([])
   }
   
   return (
@@ -46,9 +72,12 @@ export default function MainSection() {
     >
 
       {isGameWon && (
-        <div className="text-center text-3xl sm:text-5xl font-bold sm:mb-4">{playersTurn ? "Player O wins!" : "Player X wins!"}</div>
+        <div className="text-center text-3xl sm:text-5xl font-bold sm:mb-4">{playersTurn ? "Claude wins!" : "You win!"}</div>
       )}
-      {!isGameWon && (
+      {isGameDrawn && (
+        <div className="text-center text-3xl sm:text-5xl font-bold sm:mb-4">{"Draw"}</div>
+      )}
+      {!isGameWon && !isGameDrawn && (
         <div className="text-center text-3xl sm:text-5xl font-bold mb-2 sm:mb-4">
           {playersTurn? "Your turn" : "Claude's turn"}
         </div>
@@ -58,9 +87,10 @@ export default function MainSection() {
         gameStateArray={gameState}
         update={updateGameboard}
         isGameWon={isGameWon}
+        winningElements={winningElements}
       />
-      {isGameWon && (
-        <button className=" w-full sm:m-4 sm:w-48 bg-dark text-2xl p-4 text-white font-bold hover:bg-tertiary hover:text-dark" onClick={() => window.location.reload()}>PLAY AGAIN</button>
+      {(isGameWon || isGameDrawn) && (
+        <button className=" w-full sm:mt-4 sm:w-48 bg-dark text-2xl p-4 text-white font-bold hover:bg-tertiary hover:text-dark" onClick={resetGame}>PLAY AGAIN</button>
 
       )}
     </div>
