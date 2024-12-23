@@ -1,6 +1,8 @@
 import GameBoard from "./GameBoard"
 import { useState, useEffect } from "react"
 
+// import.meta.env.REACT_APP_VITE_
+
 export default function MainSection() {
   const [gameState, setGameState] = useState(["","","","","","","","",""]);
   const [winningElements, setWinningElements] = useState([]);
