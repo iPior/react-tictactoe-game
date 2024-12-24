@@ -1,7 +1,18 @@
 import GameBoard from "./GameBoard"
+import Anthropic from '@anthropic-ai/sdk';
 import { useState, useEffect } from "react"
 
-// import.meta.env.REACT_APP_VITE_
+const anthropic = new Anthropic({
+  apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
+  dangerouslyAllowBrowser: true
+});
+
+const SYSTEM_PROMPT = `
+You are playing TIC TAC TOE. The grid is the traditional 3x3 but it will be given to you in the form of a 1x9 array. 
+Example: First rows elements are indices 0,1,2, row 2 are indicies 3,4,5 and the last row elements are indicies 6,7, and 8. 
+Of the nine indicies to make a move on, if the index is an empty string, then that spot is available to you to make a move.  
+Take indicies will be denoted by a 'x' (for the users turn) and 'o' for your turn.
+Return the index of the move you are making and no other text and make sure it is not in an index that already exists.`
 
 export default function MainSection() {
   const [gameState, setGameState] = useState(["","","","","","","","",""]);
@@ -10,7 +21,40 @@ export default function MainSection() {
   const [isGameWon, setIsGameWon] = useState(false)
   const [isGameDrawn, setIsGameDrawn] = useState(false)
 
+  // claude-3-5-sonnet-20241022
+  // claude-3-haiku-20240307
+
+  async function getMoveFromClaude() {
+    console.log(playersTurn, gameState)
+    const msg = await anthropic.messages.create({
+      model: "claude-3-5-sonnet-20241022",
+      max_tokens: 500,
+      system: SYSTEM_PROMPT,
+      messages: [
+        { 
+          role: "user", 
+          content: `${gameState}`,
+        }
+      ],
+    });
+
+    // if (gameState[msg.content[0].text] !== "") {
+
+    // }
+    console.log(msg.content[0])
+    updateGameboard(msg.content[0].text)
+    // return (msg.content[0].text)
+    // add a try and catch
+  }
+
+  // useEffect(() => {
+  //   getMoveFromClaude()
+  // },[])
+
   useEffect(() => {
+    if (!playersTurn) {
+      getMoveFromClaude()
+    }
     checkDraw()
     checkWin()
   }, [gameState])
@@ -57,6 +101,9 @@ export default function MainSection() {
         return newArray
       })
       setPlayersTurn(!playersTurn)
+    }
+    else {
+     return false
     }
   }
 
