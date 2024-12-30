@@ -12,23 +12,19 @@ const ANTHROPIC_PROMPT = `
 You are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.
 You will play as 'o' against the human who plays 'x'.
 You will receive:
-1. gameState: array of 9 indices using 'x', 'o', and '' for empty spaces
+1. gameState: an array of 9 indices using 'x', 'o', and '' for empty spaces
+2. availableMoves: an array of number which are available indicies to choose from to make your move
 
 Rules:
-- You can only select indices where gameState[index] is empty ('') (this is really important)
+- You can only select indices from the available moves (this is really important)
 
-WINNING_COMBINATIONS = [
+WINNING_COMBINATIONS [a,b,c] = [
   [0,1,2], [3,4,5], [6,7,8],  // horizontal
   [0,3,6], [1,4,7], [2,5,8],  // vertical
   [0,4,8], [2,4,6]            // diagonal
 ]
 
-[IMPORTANT] Before returning a move:
-1. Check gameState[index] === '' for your chosen position
-2. Never select an index that contains 'x' or 'o'
-3. Only return an index that corresponds to an empty position
-
-Strategy priority (ONLY considering empty positions):
+Strategy priority (ONLY considering indicies from available moves):
 1. For each winning combination [a,b,c]:
   - If two positions have 'o' and one is empty, take that winning move
   - If there is no winning move, and if two positions have 'x' and one is empty, block that empty position
@@ -37,7 +33,7 @@ Strategy priority (ONLY considering empty positions):
 
 Return only a JSON object with:
 - reason: string (brief strategy explanation)
-- index: number (must be an empty position)
+- index: number (must be a number from availableMoves)
 `
 
 const ANTHROPIC_PROMPT_v2 = `
@@ -75,6 +71,38 @@ Return ONLY a JSON object with:
 }
 
 MAKE SURE THE INDEX is from availableMoves!
+`
+
+const ANTHROPIC_PROMPT_OLD = `
+YYou are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.
+You will play as 'o' against the human who plays 'x'.
+You will receive:
+1. gameState: array of 9 indices using 'x', 'o', and '' for empty spaces
+
+Rules:
+- You can only select indices where gameState[index] is empty ('') (this is really important)
+
+WINNING_COMBINATIONS = [
+  [0,1,2], [3,4,5], [6,7,8],  // horizontal
+  [0,3,6], [1,4,7], [2,5,8],  // vertical
+  [0,4,8], [2,4,6]            // diagonal
+]
+
+[IMPORTANT] Before returning a move:
+1. Check gameState[index] === '' for your chosen position
+2. Never select an index that contains 'x' or 'o'
+3. Only return an index that corresponds to an empty position
+
+Strategy priority (ONLY considering empty positions):
+1. For each winning combination [a,b,c]:
+  - If two positions have 'o' and one is empty, take that winning move
+  - If there is no winning move, and if two positions have 'x' and one is empty, block that empty position
+2. If no immediate threats/wins, create fork opportunities
+3. Take center if available, then corners
+
+Return only a JSON object with:
+- reason: string (brief strategy explanation)
+- index: number (must be an empty position)
 `
 
 /*
@@ -119,7 +147,7 @@ export default function MainSection() {
   const [playersTurn, setPlayersTurn] = useState(true)
   const [isGameWon, setIsGameWon] = useState(false)
   const [isGameDrawn, setIsGameDrawn] = useState(false)
-  const [availableMoves, setAvailableMoves] = useState([])
+  const [availableMoves, setAvailableMoves] = useState([0,1,2,3,4,5,6,7,8])
 
   // claude-3-5-sonnet-20241022
   // claude-3-haiku-20240307
@@ -135,6 +163,7 @@ export default function MainSection() {
             role: "user", 
             content: JSON.stringify({
                 gameState: gameState,
+                availableMoves: availableMoves
             }),
           }
         ],
@@ -185,6 +214,7 @@ export default function MainSection() {
     useEffect hook to check if it is the AI's turn
   */
   useEffect(() => {
+    console.log(availableMoves)
      // Only handle AI moves, with a small delay to ensure state updates are processed
     if (!playersTurn && !isGameWon && !isGameDrawn) {
       const timeoutId = setTimeout(() => {
@@ -210,6 +240,9 @@ export default function MainSection() {
         newArray[index] = playersTurn ? "x" : "o"
         return newArray
       })
+      setAvailableMoves(prev => {
+        return prev.splice(index, 1);
+      })
       setPlayersTurn(prev => !prev);
     }
     else {
@@ -224,7 +257,7 @@ export default function MainSection() {
     setIsGameWon(false)
     setIsGameDrawn(false)
     setWinningElements([])
-    setAvailableMoves([]);
+    setAvailableMoves([0,1,2,3,4,5,6,7,8]);
   }
   
   return (
