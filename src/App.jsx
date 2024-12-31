@@ -26,7 +26,8 @@ export default function App() {
         />
       </div> */}
       <div
-        className="m-auto flex flex-col align-middle justify-center 
+        className="m-auto flex flex-col align-middle justify-center pattern-isometric pattern-blue-500 pattern-bg-white 
+  pattern-size-6 pattern-opacity-10
         "
       >
         {startGame ? <MainSection whoGoesFirst={whoGoesFirst}/> : <Header firstMove={firstMove} />}
