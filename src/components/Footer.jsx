@@ -6,19 +6,19 @@ export default function Footer() {
   
     return (
       <footer
-        className="w-full py-4 lg:w-5/6 m-auto flex flex-col md:flex-row justify-between
+        className="w-full py-4 flex flex-col md:flex-row justify-center bg-dark rounded-b-3xl border-4 border-t-0 border-opacity-20 border-white 
         "
       >
 
-        <div className="text-lg lg:text-2xl flex justify-center md:justify-start items-center">
+        {/* <div className="text-lg lg:text-2xl flex justify-center md:justify-start items-center">
           <FontAwesomeIcon icon={faStar} className='mr-1 sm:mr-2' />
           <p className=''>Developed by Piotr Szaran</p>
-        </div>
-        <div className="text-lg lg:text-2xl flex justify-center md:justify-start items-center my-1 sm:my-0">
+        </div> */}
+        <div className="text-md lg:text-xl text-white flex justify-center md:justify-start items-center sm:mx-6">
           <FontAwesomeIcon icon={faGithub} className='mr-1 sm:mr-2' />
           <a className=''>My Github</a>
         </div>
-        <div className="text-lg lg:text-2xl flex justify-center md:justify-start items-center">
+        <div className="text-md lg:text-xl text-white flex justify-center md:justify-start items-center sm:mx-6">
           <FontAwesomeIcon icon={faCode} className='mr-1 sm:mr-2' />
           <a className=''>Source Code</a>
         </div>

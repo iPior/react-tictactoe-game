@@ -2,11 +2,51 @@ import GameBoard from "./GameBoard"
 import Anthropic from '@anthropic-ai/sdk';
 import { check } from "prettier";
 import { useState, useEffect } from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRobot, faUser} from '@fortawesome/free-solid-svg-icons'
 
 const anthropic = new Anthropic({
   apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
   dangerouslyAllowBrowser: true
 });
+
+
+const ANTHROPIC_PROMPT_v3 = `
+You are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.
+You will play as 'o' against the human who plays 'x'.
+You will receive:
+1. gameState: an array of 9 indices using 'x', 'o', and '' for empty spaces
+2. availableMoves: an array of numbers which are available indices to choose from
+
+WINNING_COMBINATIONS = [
+  [0,1,2], [3,4,5], [6,7,8],  // horizontal
+  [0,3,6], [1,4,7], [2,5,8],  // vertical
+  [0,4,8], [2,4,6]            // diagonal
+]
+
+MOVE SELECTION ALGORITHM:
+1. FOR EACH combination [a,b,c] in WINNING_COMBINATIONS:
+   - Set oCount = 0, xCount = 0, emptyPos = null
+   - Check each position (a,b,c):
+     * IF gameState[pos] === 'o': oCount++
+     * IF gameState[pos] === 'x': xCount++
+     * IF gameState[pos] === '': emptyPos = pos
+   - IF oCount === 2 AND emptyPos !== null AND emptyPos in availableMoves:
+     IMMEDIATELY RETURN {
+       "index": emptyPos,
+       "reason": "Taking winning move"
+     }
+
+2. Only if no winning move found, repeat the same check for blocking moves (xCount === 2)
+
+3. Only if no wins or blocks:
+   - Take center (4) if in availableMoves
+   - Take corner (0,2,6,8) if in availableMoves
+   - Take any available move
+
+MUST check EVERY combination COMPLETELY before moving to next priority.
+`
+
 
 const ANTHROPIC_PROMPT = `
 You are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.
@@ -140,11 +180,12 @@ Return only a JSON object with:
 */
 
 
-export default function MainSection() {
+
+export default function MainSection(props) {
   const [gameState, setGameState] = useState(["","","","","","","","",""]);
   // const [gameState, setGameState] = useState([ "x", "o", "x", "o", "", "", "o", "x", "x" ]);
   const [winningElements, setWinningElements] = useState([]);
-  const [playersTurn, setPlayersTurn] = useState(true)
+  const [playersTurn, setPlayersTurn] = useState(props.whoGoesFirst)
   const [isGameWon, setIsGameWon] = useState(false)
   const [isGameDrawn, setIsGameDrawn] = useState(false)
   const [availableMoves, setAvailableMoves] = useState([0,1,2,3,4,5,6,7,8])
@@ -176,6 +217,7 @@ export default function MainSection() {
     }
   }
 
+
   /*
     useEffect hook to check if there is a win every time the gameState changes
   */
@@ -205,7 +247,6 @@ export default function MainSection() {
 
     // Checking draw
     if (!isGameWon && gameState.filter(cell => cell === "").length === 0) {
-      console.log("we have a draw")
       setIsGameDrawn(true)
     }
   }, [gameState])
@@ -214,7 +255,6 @@ export default function MainSection() {
     useEffect hook to check if it is the AI's turn
   */
   useEffect(() => {
-    console.log(availableMoves)
      // Only handle AI moves, with a small delay to ensure state updates are processed
     if (!playersTurn && !isGameWon && !isGameDrawn) {
       const timeoutId = setTimeout(() => {
@@ -241,7 +281,10 @@ export default function MainSection() {
         return newArray
       })
       setAvailableMoves(prev => {
-        return prev.splice(index, 1);
+        const newArray = [... prev]
+        const newIndex = newArray.findIndex(element => element === index)
+        newArray.splice(newIndex, 1);
+        return newArray;
       })
       setPlayersTurn(prev => !prev);
     }
@@ -262,22 +305,38 @@ export default function MainSection() {
   
   return (
     <div
-      className=" w-full my-2 py-4 max-sm:h-full flex flex-col sm:justify-center items-center"
+      className=" w-full max-sm:h-full flex flex-col sm:justify-center items-center align-middle "
     >
-
+      <div className="w-full p-4 shadow-2xl rounded-t-3xl
+        border-4 border-b-0 border-opacity-20 bg-dark border-white text-white">
       {isGameWon && (
-        <div className="text-center text-3xl sm:text-5xl font-bold sm:mb-4">{playersTurn ? "Claude wins!" : "You win!"}</div>
+        <div className="text-center text-3xl sm:text-5xl font-bold ">
+          {
+            playersTurn ?
+              <><FontAwesomeIcon icon={faRobot}/> Claude wins!</> :
+              <><FontAwesomeIcon icon={faUser}/> You win!</>
+          }
+        </div>
       )}
       {isGameDrawn && (
-        <div className="text-center text-3xl sm:text-5xl font-bold sm:mb-4">{"Draw"}</div>
-      )}
-      {!isGameWon && !isGameDrawn && (
-        <div className="text-center text-3xl sm:text-5xl font-bold mb-2 sm:mb-4">
-          {playersTurn? "Your turn" : "Claude's turn"}
+        <div className="text-center text-3xl sm:text-5xl font-bold sm:mb-4">
+          {"Draw"}
         </div>
       )}
       
-      <GameBoard 
+      {!isGameWon && !isGameDrawn && (
+        <div className="text-center text-3xl sm:text-5xl font-bold mb-2">
+          {
+            playersTurn ?
+              <><FontAwesomeIcon icon={faUser}/> Your turn</> :
+              <><FontAwesomeIcon icon={faRobot}/> Claude's turn!</>
+          }
+        </div>
+      )}
+      </div>
+      <div className="p-4 shadow-2xl
+        border-4 border-y-0 border-opacity-60 border-dark text-center">
+      <GameBoard
         gameStateArray={gameState}
         update={updateGameboard}
         isGameWon={isGameWon}
@@ -287,6 +346,7 @@ export default function MainSection() {
         <button className=" w-full sm:mt-4 sm:w-48 bg-dark text-2xl p-4 text-white font-bold hover:bg-tertiary hover:text-dark" onClick={resetGame}>PLAY AGAIN</button>
 
       )}
+      </div>
     </div>
   )
 } 

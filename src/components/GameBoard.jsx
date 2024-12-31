@@ -18,6 +18,7 @@ export default function GameBoard(props) {
           value={cell}
           disabled={props.isGameWon}
       >
+
         {cell === "" ? 
           null : 
           <FontAwesomeIcon icon={cell === 'x' ? faX : faO} className={clsx('text-2xl', 'sm:text-5xl', 'md:text-8xl', props.winningElements.includes(index) ? 'text-white' : 'text-dark')}/>
@@ -28,7 +29,7 @@ export default function GameBoard(props) {
   
   
   return (
-    <div className="max-sm:w-full my-2 sm:my-0 bg-dark   flex flex-wrap sm:grid sm:grid-cols-3">
+    <div className="max-sm:w-full my-2 sm:my-0 bg-dark flex flex-wrap sm:grid sm:grid-cols-3">
         {gridElements}
     </div>
   )
