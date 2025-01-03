@@ -29,12 +29,22 @@ export default function GameBoard(props) {
       </div>
 
       {(props.isGameWon || props.isGameDrawn) && (
+        <div>
         <button 
-          className=" w-full mt-4  sm:w-48 bg-primaryorange rounded-xl  sm:text-lg lg:text-2xl p-4 text-gray-100 font-bold animate-spin transform scale-110" 
-          onClick={() => props.resetGame()}
+          className="mt-4 bg-primaryorange rounded-xl  sm:text-lg lg:text-2xl text-gray-100 font-bold animate-spin transform scale-105 py-4 mr-6" 
+          onClick={() => props.resetGame(true)}
         >
-          PLAY AGAIN
+          <span className='bg-accentblue text-gray-100 border-2 border-accentblue rounded-l-xl p-4'><FontAwesomeIcon icon={faX}/></span>
+          <span className='bg-gray-100 text-primaryblue  rounded-r-xl border-2 border-gray-100 p-4'>PLAY AGAIN</span>
         </button>
+        <button 
+          className="mt-4 bg-primaryorange rounded-xl  sm:text-lg lg:text-2xl text-gray-100 font-bold animate-spin transform scale-105 py-4" 
+          onClick={() => props.resetGame(false)}
+        >
+          <span className='bg-accentorange text-gray-100 border-2 border-accentorange rounded-l-xl p-4'><FontAwesomeIcon icon={faO}/></span>
+          <span className='bg-gray-100 text-primaryblue  rounded-r-xl border-2 border-gray-100 p-4'>PLAY AGAIN</span>
+        </button>
+        </div>
       )}
       </div>
     

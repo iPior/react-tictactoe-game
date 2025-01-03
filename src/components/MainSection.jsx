@@ -181,9 +181,9 @@ export default function MainSection(props) {
     }
   }
 
-  function resetGame() {
+  function resetGame(goFirst) {
     setGameState(["","","","","","","","",""])
-    setPlayersTurn(true)
+    setPlayersTurn(goFirst)
     setIsGameWon(false)
     setIsGameDrawn(false)
     setWinningElements([])

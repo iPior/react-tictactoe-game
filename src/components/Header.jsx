@@ -20,14 +20,14 @@ export default function Header(props) {
             className="mb-2 sm:mb-0 py-4 text-sm sm:text-lg md:text-2xl rounded-xl group sm:mr-2"
             onClick={() => props.firstMove(true)}
           >
-          <span className='bg-primaryorange text-primaryblue border-2 border-primaryblue rounded-l-xl p-4 group-hover:bg-primaryblue group-hover:text-primaryorange'><FontAwesomeIcon icon={faX}/></span>
+          <span className='bg-primaryorange text-primaryblue border-2 border-primaryblue rounded-l-xl p-4 group-hover:bg-primaryblue group-hover:text-gray-100'><FontAwesomeIcon icon={faX}/></span>
           <span className='bg-primaryblue  rounded-r-xl border-2 border-primaryblue p-4 group-hover:bg-primaryorange group-hover:text-primaryblue'>Go First</span>
           </button>
           <button 
             className="mb-2 py-4 sm:mb-0 text-sm sm:text-lg md:text-2xl rounded-xl group"
             onClick={() => props.firstMove(false)}
           >
-            <span className='bg-primaryorange text-primaryblue border-2 border-primaryblue rounded-l-xl p-4 group-hover:bg-primaryblue group-hover:text-primaryorange'><FontAwesomeIcon icon={faO}/></span>
+            <span className='bg-primaryorange text-primaryblue border-2 border-primaryblue rounded-l-xl p-4 group-hover:bg-primaryblue group-hover:text-gray-100'><FontAwesomeIcon icon={faO}/></span>
             <span className='bg-primaryblue  rounded-r-xl border-2 border-primaryblue p-4 group-hover:bg-primaryorange group-hover:text-primaryblue'>Go Second</span>
           </button>
         </div>
