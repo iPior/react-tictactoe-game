@@ -102,37 +102,39 @@ export default function MainSection(props) {
 
     } catch(error) {
       console.error(error)
-      alert("Error while communicating with Claude. Please try again.")
+      alert("Error while communicating with Claude. Taking a random move.")
     }
   }
 
   /*    useEffect hook to check if there is a win every time the gameState changes    */
   useEffect(() => {
     // Checking win
+    let winDetected = false;
     if (gameState[0] !== "" && gameState[0] === gameState[4] && gameState[4] === gameState[8]){
-      setIsGameWon(true)
-      setWinningElements([0, 4, 8])
+      winDetected = true;
+      setWinningElements([0, 4, 8]);
     }
     else if (gameState[2] !== "" && gameState[2] === gameState[4] && gameState[4] === gameState[6]){
-      setIsGameWon(true)
+      winDetected = true;
       setWinningElements([2, 4, 6])
     }
     else  {
       // check horizontal / vertical
       for (let i = 0; i <= 2; i++){
         if (gameState[(3*i)] === gameState[(3*i)+1] && gameState[(3*i)+1] === gameState[(3*i)+2] && gameState[(3*i)+2] !== ""){
-          setIsGameWon(true)
+          winDetected = true;
           setWinningElements([(3*i), (3*i)+1, (3*i)+2])
         }
         else if (gameState[i] === gameState[i+3] && gameState[i+3] === gameState[i+6] && gameState[i+6] !== ""){
-          setIsGameWon(true)
+          winDetected = true;
           setWinningElements([i, i+3, i+6])
         }
       }
     }
+    if (winDetected) setIsGameWon(true);
 
     // Checking draw
-    if (!isGameWon && gameState.filter(cell => cell === "").length === 0) {
+    if (!winDetected && gameState.filter(cell => cell === "").length === 0) {
       setIsGameDrawn(true)
     }
   }, [gameState])
@@ -149,8 +151,10 @@ export default function MainSection(props) {
           })
           .catch((err) => {
             console.error(err);
+            const randomIndex = Math.floor(Math.random()*availableMoves.length)
+            updateGameboard(randomIndex)
           });
-      }, 0);
+      }, 100);
       
       return () => clearTimeout(timeoutId);
     }
@@ -173,8 +177,7 @@ export default function MainSection(props) {
       setPlayersTurn(prev => !prev);
     }
     else {
-     console.log("error updating gameboard")
-    //  if there is an error, update a random move
+      console.log("error updating gameboard")
     }
   }
 
@@ -188,7 +191,7 @@ export default function MainSection(props) {
   }
   
   return (
-    <div className=" w-full max-sm:h-full flex flex-col sm:justify-center items-center align-middle">
+    <div className=" max-sm:w-full max-sm:h-full flex flex-col sm:justify-center items-center align-middle">
       <GameboardHeader 
         isGameWon={isGameWon}
         isGameDrawn={isGameDrawn}
