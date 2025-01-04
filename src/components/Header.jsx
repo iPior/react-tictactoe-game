@@ -15,20 +15,20 @@ export default function Header(props) {
         <p className="mx-auto sm:max-w-2xl text-xs sm:text-lg md:text-xl text-center">
           Classic Tic-tac-toe with a modern twist. Challenge Anthropic's AI and test your skills against an opponent that thinks several moves ahead, planning sequences of moves to achieve victory. Can you outmaneuver the AI's strategic planning and emerge victorious in this timeless battle of X's and O's?
         </p>
-        <div className='flex flex-col sm:flex-row mt-4 text-gray-100 font-bold'>
+        <div className='flex flex-col xs:flex-row mt-4 text-gray-100 font-bold'>
           <button 
-            className="mb-2 sm:mb-0 py-4 text-sm sm:text-lg md:text-2xl rounded-xl group sm:mr-2"
+            className="mb-2 sm:mb-0 py-2 sm:py-4 text-sm sm:text-lg md:text-2xl rounded-xl group xs:mr-2"
             onClick={() => props.firstMove(true)}
           >
-          <span className='bg-primaryorange text-primaryblue border-2 border-primaryblue rounded-l-xl p-4 group-hover:bg-primaryblue group-hover:text-gray-100'><FontAwesomeIcon icon={faX}/></span>
-          <span className='bg-primaryblue  rounded-r-xl border-2 border-primaryblue p-4 group-hover:bg-primaryorange group-hover:text-primaryblue'>Go First</span>
+          <span className='bg-primaryorange text-primaryblue border-2 border-primaryblue rounded-l-xl p-2 sm:p-4 group-hover:bg-primaryblue group-hover:text-gray-100'><FontAwesomeIcon icon={faX}/></span>
+          <span className='bg-primaryblue  rounded-r-xl border-2 border-primaryblue p-2 sm:p-4 group-hover:bg-primaryorange group-hover:text-primaryblue'>Go First</span>
           </button>
           <button 
-            className="mb-2 py-4 sm:mb-0 text-sm sm:text-lg md:text-2xl rounded-xl group"
+            className="mb-2 py-2 sm:py-4 sm:mb-0 text-sm sm:text-lg md:text-2xl rounded-xl group"
             onClick={() => props.firstMove(false)}
           >
-            <span className='bg-primaryorange text-primaryblue border-2 border-primaryblue rounded-l-xl p-4 group-hover:bg-primaryblue group-hover:text-gray-100'><FontAwesomeIcon icon={faO}/></span>
-            <span className='bg-primaryblue  rounded-r-xl border-2 border-primaryblue p-4 group-hover:bg-primaryorange group-hover:text-primaryblue'>Go Second</span>
+            <span className='bg-primaryorange text-primaryblue border-2 border-primaryblue rounded-l-xl p-2 sm:p-4 group-hover:bg-primaryblue group-hover:text-gray-100'><FontAwesomeIcon icon={faO}/></span>
+            <span className='bg-primaryblue  rounded-r-xl border-2 border-primaryblue p-2 sm:p-4 group-hover:bg-primaryorange group-hover:text-primaryblue'>Go Second</span>
           </button>
         </div>
       

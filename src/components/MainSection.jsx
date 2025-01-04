@@ -8,41 +8,15 @@ const anthropic = new Anthropic({
   dangerouslyAllowBrowser: true
 });
 
-const ANTHROPIC_PROMPT_v3 = `
-You are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.
-You will play as 'o' against the human who plays 'x'.
-You will receive:
-1. gameState: an array of 9 indices using 'x', 'o', and '' for empty spaces
-2. availableMoves: an array of numbers which are available indices to choose from
-
-WINNING_COMBINATIONS = [
-  [0,1,2], [3,4,5], [6,7,8],  // horizontal
-  [0,3,6], [1,4,7], [2,5,8],  // vertical
-  [0,4,8], [2,4,6]            // diagonal
-]
-
-MOVE SELECTION ALGORITHM:
-1. FOR EACH combination [a,b,c] in WINNING_COMBINATIONS:
-   - Set oCount = 0, xCount = 0, emptyPos = null
-   - Check each position (a,b,c):
-     * IF gameState[pos] === 'o': oCount++
-     * IF gameState[pos] === 'x': xCount++
-     * IF gameState[pos] === '': emptyPos = pos
-   - IF oCount === 2 AND emptyPos !== null AND emptyPos in availableMoves:
-     IMMEDIATELY RETURN {
-       "index": emptyPos,
-       "reason": "Taking winning move"
-     }
-
-2. Only if no winning move found, repeat the same check for blocking moves (xCount === 2)
-
-3. Only if no wins or blocks:
-   - Take center (4) if in availableMoves
-   - Take corner (0,2,6,8) if in availableMoves
-   - Take any available move
-
-MUST check EVERY combination COMPLETELY before moving to next priority.
-`
+/*
+ * Things to fix/add:
+ *  1. Not making a move when it is the opponents turn to go
+ *  2. Perhaps a better AI prompt
+ *      -'You are the best tictactoe player'
+ *  3. Modularize the AI stuff into a utils file
+ *  4. Clean up the tailwind css
+ *  5. Clean up the extra comments that are unnecessary
+ */
 
 const ANTHROPIC_PROMPT = `
 You are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.

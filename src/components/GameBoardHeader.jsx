@@ -3,7 +3,7 @@ import { faRobot, faUser} from '@fortawesome/free-solid-svg-icons'
 
 export default function GameboardHeader(props) {
     return (
-        <div className="w-full p-4 shadow-2xl rounded-t-3xl border-4 border-b-0 bg-primaryblue border-accentorange text-gray-100 text-center text-xl sm:text-4xl lg:text-5xl font-bold ">
+        <div className="w-full p-4 shadow-2xl rounded-t-3xl border-4 border-b-0 bg-primaryblue border-accentorange text-gray-100 text-center text-3xl sm:text-4xl lg:text-5xl font-bold ">
             {props.isGameWon && (
                 <div className='my-2'>
                     {
@@ -14,14 +14,14 @@ export default function GameboardHeader(props) {
                 </div>
             )}
             {props.isGameDrawn && (
-                <div className="my-2">{"Draw"}</div>
+                <div className="">Draw!</div>
             )}
       
             {!props.isGameWon && !props.isGameDrawn && (
                 <div className="my-2">
                 {
                     props.playersTurn ?
-                    <><FontAwesomeIcon icon={faUser}/> Your turn</> :
+                    <><FontAwesomeIcon icon={faUser}/> Your turn!</> :
                     <><FontAwesomeIcon icon={faRobot}/> Claude's turn!</>
                 }
                 </div>
