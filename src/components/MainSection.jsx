@@ -3,20 +3,19 @@ import Anthropic from '@anthropic-ai/sdk';
 import { useState, useEffect } from "react"
 import GameboardHeader from "./GameBoardHeader";
 
+/*
+ * Things to fix/add:
+ *  2. Perhaps a better AI prompt
+ *      -'You are the best tictactoe player'
+ *  3. Modularize the AI stuff into a utils file
+ *  5. Upon winning there is a flash of the next player
+ *      - looks like the turn is being made next before updating the state
+ */
+
 const anthropic = new Anthropic({
   apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
   dangerouslyAllowBrowser: true
 });
-
-/*
- * Things to fix/add:
- *  1. Not making a move when it is the opponents turn to go
- *  2. Perhaps a better AI prompt
- *      -'You are the best tictactoe player'
- *  3. Modularize the AI stuff into a utils file
- *  4. Clean up the tailwind css
- *  5. Clean up the extra comments that are unnecessary
- */
 
 const ANTHROPIC_PROMPT = `
 You are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.
@@ -53,13 +52,11 @@ export default function MainSection(props) {
   const [isGameWon, setIsGameWon] = useState(false)
   const [isGameDrawn, setIsGameDrawn] = useState(false)
   const [availableMoves, setAvailableMoves] = useState([0,1,2,3,4,5,6,7,8])
-
-  // claude-3-5-sonnet-20241022
-  // claude-3-haiku-20240307
+  
   async function getMoveFromClaude(prompt) {
     try{ 
       const msg = await anthropic.messages.create({
-        model: "claude-3-5-sonnet-20241022",
+        model: "claude-3-5-sonnet-20241022", // claude-3-haiku-20240307
         max_tokens: 2000,
         system: prompt,
         messages: [
@@ -120,10 +117,9 @@ export default function MainSection(props) {
       const timeoutId = setTimeout(() => {
         getMoveFromClaude(ANTHROPIC_PROMPT)
           .then(response => {
-            console.log(response);
             updateGameboard(response.index);
           })
-          .catch((err) => {
+          .catch((err) => { //if there is an error, do a random move
             console.error(err);
             const randomIndex = Math.floor(Math.random()*availableMoves.length)
             updateGameboard(randomIndex)
@@ -148,7 +144,13 @@ export default function MainSection(props) {
         newArray.splice(newIndex, 1);
         return newArray;
       })
-      setPlayersTurn(prev => !prev);
+      
+      // const movesMade = gameState.join('').length;
+
+      // if (movesMade != 8) {
+        setPlayersTurn(prev => !prev);
+      // }
+
     }
     else {
       console.log("error updating gameboard")
@@ -177,6 +179,7 @@ export default function MainSection(props) {
         resetGame={resetGame}
         isGameWon={isGameWon}
         isGameDrawn={isGameDrawn}
+        playersTurn={playersTurn}
         winningElements={winningElements}
       />
     </div>

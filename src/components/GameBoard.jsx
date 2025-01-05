@@ -11,7 +11,7 @@ export default function GameBoard(props) {
           key={index}
           onClick={() => props.update(index)}
           value={cell}
-          disabled={props.isGameWon}
+          disabled={props.isGameWon || !props.playersTurn}
       >
         {cell === "" ? 
           null : 
