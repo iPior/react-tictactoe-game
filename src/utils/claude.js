@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 
 const anthropic = new Anthropic({
   apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
+  dangerouslyAllowBrowser: true
 });
 
 const ANTHROPIC_PROMPT = `
@@ -30,8 +31,6 @@ Strategy priority (ONLY considering indicies from available moves):
 Return only a JSON object with only:
 - index: number (must be a number from availableMoves)
 `
-
-// - reason: string (brief strategy explanation)
 
 export async function getMoveFromClaude(gameBoard, availableMoves) {
     try{ 

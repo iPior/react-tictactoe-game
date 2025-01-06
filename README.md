@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-A webapp developed to practice React and Tailwind.
+A webapp developed to practice React and Tailwind. 
 
 > Start screen of the game
 ![<Start Screen of the game>.](/readmePictures/tictactoe-1.PNG)
