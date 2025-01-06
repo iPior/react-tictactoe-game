@@ -1,49 +1,8 @@
 import GameBoard from "./GameBoard"
-import Anthropic from '@anthropic-ai/sdk';
-import { useState, useEffect } from "react"
 import GameboardHeader from "./GameBoardHeader";
+import { useState, useEffect } from "react"
+import { getMoveFromClaude } from "../utils/claude";
 
-/*
- * Things to fix/add:
- *  2. Perhaps a better AI prompt
- *      -'You are the best tictactoe player'
- *  3. Modularize the AI stuff into a utils file
- *  5. Upon winning there is a flash of the next player
- *      - looks like the turn is being made next before updating the state
- */
-
-const anthropic = new Anthropic({
-  apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
-  dangerouslyAllowBrowser: true
-});
-
-const ANTHROPIC_PROMPT = `
-You are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.
-You will play as 'o' against the human who plays 'x'.
-You will receive:
-1. gameState: an array of 9 indices using 'x', 'o', and '' for empty spaces
-2. availableMoves: an array of number which are available indicies to choose from to make your move
-
-Rules:
-- You can only select indices from the available moves (this is really important)
-
-WINNING_COMBINATIONS [a,b,c] = [
-  [0,1,2], [3,4,5], [6,7,8],  // horizontal
-  [0,3,6], [1,4,7], [2,5,8],  // vertical
-  [0,4,8], [2,4,6]            // diagonal
-]
-
-Strategy priority (ONLY considering indicies from available moves):
-1. For each winning combination [a,b,c]:
-  - If two positions have 'o' and one is empty, take that winning move
-  - If there is no winning move, and if two positions have 'x' and one is empty, block that empty position
-2. If no immediate threats/wins, create fork opportunities
-3. Take center if available, then corners
-
-Return only a JSON object with:
-- reason: string (brief strategy explanation)
-- index: number (must be a number from availableMoves)
-`
 
 export default function MainSection(props) {
   const [gameState, setGameState] = useState(["","","","","","","","",""]);
@@ -53,34 +12,10 @@ export default function MainSection(props) {
   const [isGameDrawn, setIsGameDrawn] = useState(false)
   const [availableMoves, setAvailableMoves] = useState([0,1,2,3,4,5,6,7,8])
   
-  async function getMoveFromClaude(prompt) {
-    try{ 
-      const msg = await anthropic.messages.create({
-        model: "claude-3-5-sonnet-20241022", // claude-3-haiku-20240307
-        max_tokens: 2000,
-        system: prompt,
-        messages: [
-          { 
-            role: "user", 
-            content: JSON.stringify({
-                gameState: gameState,
-                availableMoves: availableMoves
-            }),
-          }
-        ],
-      });
-      return JSON.parse(msg.content[0].text)
-
-    } catch(error) {
-      console.error(error)
-      alert("Error while communicating with Claude. Taking a random move.")
-    }
-  }
-
-  /*    useEffect hook to check if there is a win every time the gameState changes    */
+  /*    useEffect hook to check if there is a win/draw every time the gameState changes    */
   useEffect(() => {
     // Checking win
-    let winDetected = false;
+    let winDetected = false; 
     if (gameState[0] !== "" && gameState[0] === gameState[4] && gameState[4] === gameState[8]){
       winDetected = true;
       setWinningElements([0, 4, 8]);
@@ -105,9 +40,11 @@ export default function MainSection(props) {
     if (winDetected) setIsGameWon(true);
 
     // Checking draw
-    if (!winDetected && gameState.filter(cell => cell === "").length === 0) {
-      setIsGameDrawn(true)
-    }
+    if (!winDetected && gameState.join("").length === 9) setIsGameDrawn(true);
+    
+    // Set players turn but only if its not the first turn, this is specfically for if the game's been reset to play again and the states updates because the gameboard has been reset but the turn should not change
+    if (gameState.join("").length !== 0) setPlayersTurn(prev =>!prev);
+
   }, [gameState])
 
   /*    useEffect hook to check if it is the AI's turn    */
@@ -115,7 +52,7 @@ export default function MainSection(props) {
      // small delay to ensure state updates are processed
     if (!playersTurn && !isGameWon && !isGameDrawn) {
       const timeoutId = setTimeout(() => {
-        getMoveFromClaude(ANTHROPIC_PROMPT)
+        getMoveFromClaude(gameState, availableMoves)
           .then(response => {
             updateGameboard(response.index);
           })
@@ -129,6 +66,8 @@ export default function MainSection(props) {
       return () => clearTimeout(timeoutId);
     }
   }, [playersTurn, isGameWon, isGameDrawn])
+
+
 
   function updateGameboard(index) {
     
@@ -144,24 +83,14 @@ export default function MainSection(props) {
         newArray.splice(newIndex, 1);
         return newArray;
       })
-      
-      // const movesMade = gameState.join('').length;
-
-      // if (movesMade != 8) {
-        setPlayersTurn(prev => !prev);
-      // }
-
-    }
-    else {
-      console.log("error updating gameboard")
     }
   }
 
   function resetGame(goFirst) {
     setGameState(["","","","","","","","",""])
-    setPlayersTurn(goFirst)
     setIsGameWon(false)
     setIsGameDrawn(false)
+    setPlayersTurn(goFirst)
     setWinningElements([])
     setAvailableMoves([0,1,2,3,4,5,6,7,8]);
   }

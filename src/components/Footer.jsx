@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCode, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faCode } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 export default function Footer() {
@@ -10,10 +10,10 @@ export default function Footer() {
         " 
       >
         <div className=" flex justify-center xs:justify-start items-center xs:mx-6 hover:text-primaryorange">
-          <a href='https://github.com/iPior/' className='hover:text-primaryorange mb-2 xs:mb-0'><FontAwesomeIcon icon={faGithub} className='mr-1 xs:mr-2' />My Github</a>
+          <a href='https://github.com/iPior/' target="_blank" className='hover:text-primaryorange mb-2 xs:mb-0'><FontAwesomeIcon icon={faGithub} className='mr-1 xs:mr-2' />My Github</a>
         </div>
         <div className="flex justify-center xs:justify-start items-center xs:mx-6 hover:text-primaryorange">
-          <a href='https://github.com/iPior/react-tictactoe-game'><FontAwesomeIcon icon={faCode} className='mr-1 xs:mr-2' />Source Code</a>
+          <a href='https://github.com/iPior/react-tictactoe-game' target="_blank"><FontAwesomeIcon icon={faCode} className='mr-1 xs:mr-2' />Source Code</a>
         </div>
       </footer>
     )

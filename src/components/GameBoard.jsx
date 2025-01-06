@@ -7,11 +7,11 @@ export default function GameBoard(props) {
 
   const gridElements = props.gameStateArray.map((cell, index) => (
       <button 
-          className={twMerge("flex items-center justify-center border-2 border-primaryblue hover:enabled:bg-gray-300 font-weight-bold box-border h-28 w-1/3 sm:h-36 sm:w-36 md:h-40 md:w-40 lg:h-44 lg:w-44 xl:h-52 xl:w-52 2xl:h-52 2xl:w-52", clsx(props.winningElements.includes(index) ? 'bg-accentblue' : 'bg-gray-100'))}
+          className={twMerge("flex items-center justify-center border-2 border-primaryblue hover:enabled:bg-gray-300 font-weight-bold box-border h-28 w-1/3 sm:h-36 sm:w-36 md:h-40 md:w-40 lg:h-44 lg:w-44 xl:h-52 xl:w-52 2xl:h-52 2xl:w-52", clsx(props.winningElements.includes(index) ? (cell === 'x' ? 'bg-accentblue' : 'bg-accentorange') : 'bg-gray-100'))}
           key={index}
           onClick={() => props.update(index)}
           value={cell}
-          disabled={props.isGameWon || !props.playersTurn}
+          disabled={props.isGameWon || props.isGameDrawn || !props.playersTurn}
       >
         {cell === "" ? 
           null : 
@@ -27,7 +27,6 @@ export default function GameBoard(props) {
       <div className="max-sm:w-full sm:my-0 bg-dark flex flex-wrap sm:grid sm:grid-cols-3">
         {gridElements}
       </div>
-
       {(props.isGameWon || props.isGameDrawn) && (
         <div className='font-bold text-sm sm:text-lg lg:text-2xl text-gray-100 flex flex-col xs:flex-row justify-center'>
         <button 
