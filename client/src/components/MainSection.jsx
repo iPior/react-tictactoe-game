@@ -1,8 +1,7 @@
 import GameBoard from "./GameBoard"
 import GameboardHeader from "./GameBoardHeader";
 import { useState, useEffect } from "react"
-import { getMoveFromClaude } from "../utils/claude";
-
+import axios from "axios";
 
 export default function MainSection(props) {
   const [gameState, setGameState] = useState(["","","","","","","","",""]);
@@ -11,6 +10,26 @@ export default function MainSection(props) {
   const [isGameWon, setIsGameWon] = useState(false)
   const [isGameDrawn, setIsGameDrawn] = useState(false)
   const [availableMoves, setAvailableMoves] = useState([0,1,2,3,4,5,6,7,8])
+
+  const fetchAPI = async () => {
+      await axios
+        .post(
+          "http://localhost:8080/claude", 
+          {gameState: gameState, availableMoves: availableMoves},
+          {headers: {'Content-Type': 'application/json'}}
+        )
+        .then(res => {
+          console.log(res.data);
+          updateGameboard(res.data);
+        })
+        .catch((err) => { //if there is an error, do a random move
+          console.error(err);
+          alert("Error while communicating with Claude. Taking a random move.")
+          const randomIndex = Math.floor(Math.random()*availableMoves.length)
+          updateGameboard(randomIndex)
+        });
+        
+  };
   
   /*    useEffect hook to check if there is a win/draw every time the gameState changes    */
   useEffect(() => {
@@ -52,22 +71,11 @@ export default function MainSection(props) {
      // small delay to ensure state updates are processed
     if (!playersTurn && !isGameWon && !isGameDrawn) {
       const timeoutId = setTimeout(() => {
-        getMoveFromClaude(gameState, availableMoves)
-          .then(response => {
-            updateGameboard(response.index);
-          })
-          .catch((err) => { //if there is an error, do a random move
-            console.error(err);
-            const randomIndex = Math.floor(Math.random()*availableMoves.length)
-            updateGameboard(randomIndex)
-          });
+        fetchAPI();
       }, 100);
-      
       return () => clearTimeout(timeoutId);
     }
   }, [playersTurn, isGameWon, isGameDrawn])
-
-
 
   function updateGameboard(index) {
     
