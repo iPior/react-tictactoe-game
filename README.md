@@ -1,7 +1,9 @@
 # Tic Tac Toe
+[Link to the game] (https://react-tictactoe-ipior.netlify.app/)
 
 A webapp developed to practice React and Tailwind. 
 
+## Screenshots of the game
 > Start screen of the game
 ![<Start Screen of the game>.](/readmePictures/tictactoe-1.PNG)
 
