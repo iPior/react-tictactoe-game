@@ -6,8 +6,7 @@ export default function Footer() {
   
     return (
       <footer
-        className="w-full py-4 flex flex-col xs:flex-row justify-center bg-primaryblue rounded-b-3xl border-4 border-t-0 border-accentorange text-xs xs:text-md sm:text-lg lg:text-xl text-gray-100
-        " 
+        className="w-full py-4 flex flex-col xs:flex-row justify-center bg-primaryblue rounded-b-3xl border-4 border-t-0 border-accentorange text-xs xs:text-md sm:text-lg lg:text-xl text-gray-100" 
       >
         <div className=" flex justify-center xs:justify-start items-center xs:mx-6 hover:text-primaryorange">
           <a href='https://github.com/iPior/' target="_blank" className='hover:text-primaryorange mb-2 xs:mb-0'><FontAwesomeIcon icon={faGithub} className='mr-1 xs:mr-2' />My Github</a>

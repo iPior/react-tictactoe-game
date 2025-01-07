@@ -10,7 +10,6 @@ export default function Header(props) {
     >
         <h1 className="text-3xl sm:text-6xl md:text-8xl mb-2 font-bold flex justify-center align-bottom h-full">
           Tic Tac Toe
-          {/* <p className='text-primaryorange text-8xl'>T</p>ic <p className='text-primaryorange text-8xl'>T</p>ac <p className='text-primaryorange text-8xl'>T</p>oe  */}
         </h1>
         <p className="mx-auto sm:max-w-2xl text-xs sm:text-lg md:text-xl text-center">
           Classic Tic-tac-toe with a modern twist. Challenge Anthropic's AI and test your skills against an opponent that thinks several moves ahead, planning sequences of moves to achieve victory. Can you outmaneuver the AI's strategic planning and emerge victorious in this timeless battle of X's and O's?
