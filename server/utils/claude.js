@@ -2,10 +2,6 @@ import Anthropic from '@anthropic-ai/sdk';
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-// const anthropic = new Anthropic({
-//   apiKey: import.meta.env.VITE_CLAUDE_API_KEY,
-// });
-
 const anthropic = new Anthropic();
 
 const ANTHROPIC_PROMPT = `
