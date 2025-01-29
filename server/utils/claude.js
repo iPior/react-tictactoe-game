@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import * as dotenv from 'dotenv'
-import { ANTHROPIC_PROMPT } from './constants.js';
+import { ANTHROPIC_PROMPT, ANTHROPIC_PROMPT_OLD } from './constants.js';
 dotenv.config()
 
 const anthropic = new Anthropic();
@@ -13,7 +13,7 @@ export async function getMoveFromClaude(gameBoard, availableMoves) {
         system: [
         {
           type: "text",
-          text: ANTHROPIC_PROMPT,
+          text: ANTHROPIC_PROMPT_OLD,
           cache_control: {type: "ephemeral"}
         },
       ],
@@ -43,7 +43,7 @@ export async function claudePreRender() {
       system: [
         {
           type: "text",
-          text: ANTHROPIC_PROMPT,
+          text: ANTHROPIC_PROMPT_OLD,
           cache_control: {type: "ephemeral"}
         },
       ],

@@ -166,7 +166,7 @@ DO NOT RETURN:
 - No invalid reason strings
 `
 
-const ANTHROPIC_PROMPT_OLD = `
+export const ANTHROPIC_PROMPT_OLD = `
 You are playing Tic-tac-toe on a 1x9 array with positions numbered 0-8.
 You will play as 'o' against the human who plays 'x'.
 You will receive:

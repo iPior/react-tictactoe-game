@@ -9,7 +9,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-claude.claudePreRender();
+// claude.claudePreRender();
 
 app.post('/claude', (req, res) => {
   const { gameState, availableMoves } = req.body;
