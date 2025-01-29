@@ -10,6 +10,7 @@ export default function MainSection(props) {
   const [isGameWon, setIsGameWon] = useState(false)
   const [isGameDrawn, setIsGameDrawn] = useState(false)
   const [availableMoves, setAvailableMoves] = useState([0,1,2,3,4,5,6,7,8])
+  const [gameHistory, setGameHistory] = useState([gameState])
 
   const fetchAPI = async () => {
       await axios
@@ -34,6 +35,7 @@ export default function MainSection(props) {
   
   /*    useEffect hook to check if there is a win/draw every time the gameState changes    */
   useEffect(() => {
+    
     // Checking win
     let winDetected = false; 
     if (gameState[0] !== "" && gameState[0] === gameState[4] && gameState[4] === gameState[8]){
@@ -64,7 +66,6 @@ export default function MainSection(props) {
     
     // Set players turn but only if its not the first turn, this is specfically for if the game's been reset to play again and the states updates because the gameboard has been reset but the turn should not change
     if (gameState.join("").length !== 0) setPlayersTurn(prev =>!prev);
-
   }, [gameState])
 
   /*    useEffect hook to check if it is the AI's turn    */
@@ -84,6 +85,7 @@ export default function MainSection(props) {
       setGameState(prev => {
         const newArray = [... prev]
         newArray[index] = playersTurn ? "x" : "o"
+        setGameHistory(prev => [...prev, newArray])
         return newArray
       })
       setAvailableMoves(prev => {

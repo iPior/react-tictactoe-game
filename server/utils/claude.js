@@ -65,8 +65,7 @@ STEP 4: IF NO WIN OR BLOCK FOUND
 1. Take center (position 4) if available
 2. Take any corner (positions 0,2,6,8) if available
 3. Take any available move
-
-YOU MUST VERIFY YOUR MOVE IS IN availableMoves BEFORE RETURNING IT
+4. YOU MUST VERIFY YOUR MOVE IS IN availableMoves
 
 IMPORTANT: You must return ONLY a valid JSON object containing a single 'index' field with a number from availableMoves.
 No explanations, no other text. Just the JSON object.
@@ -231,8 +230,14 @@ export async function getMoveFromClaude(gameBoard, availableMoves) {
     try{ 
       const msg = await anthropic.messages.create({
         model: "claude-3-5-sonnet-20241022", // claude-3-haiku-20240307
-        max_tokens: 2500,
-        system: prompt,
+        max_tokens: 2048,
+        system: [
+        {
+          type: "text",
+          text: ANTHROPIC_PROMPT_vProd,
+          cache_control: {type: "ephemeral"}
+        },
+      ],
         messages: [
           { 
             role: "user", 
@@ -243,9 +248,35 @@ export async function getMoveFromClaude(gameBoard, availableMoves) {
           }
         ],
       });
+      console.log(msg)
       return JSON.parse(msg.content[0].text)
 
     } catch(error) {
       console.error(error)
     }
   }
+
+export async function claudePreRender() {
+  try{ 
+    const msg = await anthropic.messages.create({
+      model: "claude-3-5-sonnet-20241022", // claude-3-haiku-20240307
+      max_tokens: 2048,
+      system: [
+        {
+          type: "text",
+          text: ANTHROPIC_PROMPT_vProd,
+          cache_control: {type: "ephemeral"}
+        },
+      ],
+      messages: [
+          { 
+            role: "user", 
+            content: "Preloading prompt. Please remember to return only a valid JSON object containing a single 'index' field, which is a number between 0-8 representing the index of the position you want to play",
+          }
+        ],
+    });
+    console.log(msg)
+  } catch(error) {
+    console.error(error)
+  }
+}
