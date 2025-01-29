@@ -140,6 +140,9 @@ Use exact strings for reasons:
 
 RETURN EXACTLY THIS FORMAT:
 {"index":number,"reason":"string"}
+and REMEMBER the index has to be from available moves!
+
+Examples: 
 
 VALID EXAMPLES:
 {"index":6,"reason":"blocking_move"}
