@@ -1,8 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk';
 import * as dotenv from 'dotenv'
+import { ANTHROPIC_PROMPT } from './constants.js';
 dotenv.config()
 
-const ANTHROPIC_PROMPT = require('./utils/claude.js')
 const anthropic = new Anthropic();
 
 export async function getMoveFromClaude(gameBoard, availableMoves) {
