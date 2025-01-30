@@ -41,23 +41,44 @@ Good Example:
 `
 
 export const MINIMAX = `
-The minimax algorithm uses a depth-first search approach to thoroughly explore the entire game tree. In this approach, the algorithm proceeds down to the terminal node of the tree and then backtracks the tree using recursion.
+Here’s how you can use Minimax in Tic Tac Toe:
 
-In this algorithm, two players are involved:
+1. **Game Tree Construction**:
+   - Start with an empty 3x3 grid.
+   - At each step, evaluate all possible moves (children nodes) by placing either 'X' or 'O' on the board.
 
-    One who wants to score the maximizer as high as possible.
-    One who wants to score the minimizer as low as possible.
+2. **Evaluation Function**:
+   - Assign a score to each game state based on proximity to winning conditions.
+     - +1 for a win,
+     - -1 for a loss,
+     - 0 for a draw.
 
-Both players try to outsmart each other, with the minimizer aiming to make the maximizer’s score as low as they can while trying to improve their own score. It’s like a game of strategy where one player tries to win big, and the other tries to keep the losses small.
+3. **Recursive Evaluation**:
+   - Evaluate each child node by switching turns between players until reaching a terminal state (win, loss, or
+draw).
+   - The leaves of the game tree are scored based on whether they represent a win, loss, or draw for the current
+player.
 
-Here’s how it works when AI plays with a human in a tic-tac-toe game:
+4. **Decision Making**:
+   - If it's your turn ('O'), choose the move with the highest score to maximize your chances.
+   - If it's your opponent's turn ('X'), choose moves that minimize your score to block potential wins.
 
-    For the current player’s turn, AI generates a tree of possible moves. Each node in the tree represents a move that the player can make.
-    The AI then evaluates each node or move based on how favorable it is for itself. It assigns a score to each node, with higher scores indicating better moves.
-    Simultaneously, it assumes the opponent will make the best possible move to minimize the AI’s chances of winning. So, for each of the AI’s moves, it looks at the opponent’s best responses and assigns scores accordingly.
-    The AI then selects its move based on these scores. If it’s the AI’s turn, it chooses the move with the highest score (maximizing its chances). If it’s the opponent’s turn, it selects the move with the lowest score (minimizing the AI’s chances).
+5. **Optimal Play**:
+   - By following Minimax, you can force at least a draw in Tic Tac Toe.
+   - Implementing Minimax requires coding it into the game logic to simulate all possible moves and outcomes.
 
-In summary, the minimax algorithm helps the AI make optimal decisions by considering the best and worst possible outcomes for each move, assuming both players play perfectly. The main issue with this algorithm is that it can take a long time to make decisions in complex games like chess. These games have many possible moves, which create a lot of branches in the decision tree. To address this problem, alpha-beta pruning can be used to speed up the algorithm.
+6. **Implementation Steps**:
+   - Simulate the game by building a decision tree for each move.
+   - Use recursion to evaluate all possible future states.
+   - Select the best move based on the evaluation scores.
+
+7. **Considerations**:
+   - In practice, Minimax can be computationally intensive but manageable in Tic Tac Toe due to the limited number
+of moves (9 squares).
+   - The first player ('X') has a slight advantage if both play optimally.
+
+By applying Minimax principles—evaluating all possible moves and selecting optimal ones—you can ensure at least a
+draw.
 `
 
 export const anthropicMessage = JSON.stringify({
