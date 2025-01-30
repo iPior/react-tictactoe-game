@@ -22,7 +22,7 @@ export default function App() {
         "https://react-tictactoe-game.onrender.com/prerender",
         {headers: {'Content-Type': 'application/json'}}
       )
-      .then((res) => {console.log(res.data);})  // send back response
+      .then(() => {console.log("Prerendering AI Prompt");})  // send back response
       .catch((err) => {console.error(err);});
     }
     preRender()

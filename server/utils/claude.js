@@ -50,7 +50,6 @@ export async function claudePreRender() {
           }
         ],
     });
-    return JSON.parse(msg.content[0].text)
   } catch(error) {
     console.error(error)
   }
