@@ -34,8 +34,8 @@ export async function getMoveFromClaude(gameBoard) {
 export async function claudePreRender() {
   try{ 
     const msg = await anthropic.messages.create({
-      model: "claude-3-5-sonnet-20241022", // claude-3-haiku-20240307
-      max_tokens: 2048,
+      model: "claude-3-haiku-20240307", // claude-3-5-sonnet-20241022 slower but more powerful model
+      max_tokens: 512,
       system: [
         {
           type: "text",
