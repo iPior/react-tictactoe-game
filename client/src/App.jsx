@@ -3,7 +3,7 @@ import MainSection from './components/MainSection'
 import Footer from './components/Footer'
 import axios from 'axios'
 import './index.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function App() {
   const[startGame, setStartGame] = useState(false);
