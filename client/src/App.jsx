@@ -1,6 +1,7 @@
 import Header from './components/Header'
 import MainSection from './components/MainSection'
 import Footer from './components/Footer'
+import axios from 'axios'
 import './index.css'
 import { useState } from 'react'
 
@@ -12,6 +13,19 @@ export default function App() {
     setWhoGoesFirst(ifPlayer)
     setStartGame(true);
   }
+
+  /*    useEffect hook to cache the prompt    */
+  useEffect(() => {
+    const preRender = async () => {
+      await  axios
+      .post(
+        "https://react-tictactoe-game.onrender.com/",
+        {headers: {'Content-Type': 'application/json'}}
+      )
+      .catch((err) => {console.error(err);});
+    }
+    preRender()
+  }, [])
 
   return (
     <div className=' top h-screen w-5/6 md:w-5/6 lg:w-full mx-auto flex align-middle justify-center'>

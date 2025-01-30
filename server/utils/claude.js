@@ -24,7 +24,6 @@ export async function getMoveFromClaude(gameBoard) {
           }
         ],
       });
-      console.log(msg)
       return JSON.parse(msg.content[0].text)
 
     } catch(error) {
@@ -51,7 +50,6 @@ export async function claudePreRender() {
           }
         ],
     });
-    console.log(msg)
   } catch(error) {
     console.error(error)
   }
