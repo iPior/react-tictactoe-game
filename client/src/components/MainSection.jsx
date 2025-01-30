@@ -14,7 +14,8 @@ export default function MainSection(props) {
   const fetchAPI = async () => {
       await axios
         .post(
-          "https://react-tictactoe-game.onrender.com/claude", 
+          "http://localhost:8080/claude",
+          // "https://react-tictactoe-game.onrender.com/claude", 
           {gameState: gameState},
           {headers: {'Content-Type': 'application/json'}}
         )

@@ -19,7 +19,8 @@ export default function App() {
     const preRender = async () => {
       await  axios
       .post(
-        "https://react-tictactoe-game.onrender.com/prerender",
+        "http://localhost:8080/prerender",
+        // "https://react-tictactoe-game.onrender.com/prerender",
         {headers: {'Content-Type': 'application/json'}}
       )
       .then(() => {console.log("Prerendering AI Prompt");})  // send back response
