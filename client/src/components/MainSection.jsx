@@ -30,6 +30,19 @@ export default function MainSection(props) {
         });
         
   };
+
+  /*    useEffect hook to cache the prompt    */
+  useEffect(() => {
+      const preRender = async () => {
+        await  axios
+        .post(
+          "https://react-tictactoe-game.onrender.com/",
+          {headers: {'Content-Type': 'application/json'}}
+        )
+        .catch((err) => {console.error(err);});
+      }
+      preRender()
+  }, [])
   
   /*    useEffect hook to check if there is a win/draw every time the gameState changes    */
   useEffect(() => {

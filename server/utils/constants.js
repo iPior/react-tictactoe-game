@@ -24,6 +24,7 @@ You will receive:
 You will return a JSON response of the gamestate with one of the empty strings ('') replaced by 'o', indicating your move. Y
 ou will include your reasning in the JSON response with the key "reasoning".
 
+You are only to make a turn on an index with an empty string!
 
 Objective:
 Before making your move, visualize the game board as a 3x3 grid. Using the MINIMAX algorithm, choose the best possible move for 'o' based on the evaluation of all possible future game states. Return only the updated game state with your move. This should be a JSON.
@@ -32,6 +33,8 @@ Prioritize (in order):
 1. Taking a winning move,
 2. Blocking the opponents winning move,
 3. Use MINIMAX algorithm to find the next best move
+
+
 
 Good Example:
 { 
