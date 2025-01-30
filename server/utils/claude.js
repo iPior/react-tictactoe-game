@@ -10,13 +10,11 @@ export async function getMoveFromClaude(gameBoard) {
       const msg = await anthropic.messages.create({
         model: "claude-3-5-sonnet-20241022", // claude-3-haiku-20240307
         max_tokens: 2048,
-        system: [
-          {
-            type: "text",
-            text: anthropicMessage,
-            cache_control: {type: "ephemeral"}
-          },
-        ],
+        system: {
+          type: "text",
+          text: anthropicMessage,
+          cache_control: {type: "ephemeral"}
+        },
         messages: [
           { 
             role: "user", 
@@ -36,13 +34,11 @@ export async function claudePreRender() {
     const msg = await anthropic.messages.create({
       model: "claude-3-5-sonnet-20241022", // claude-3-haiku-20240307
       max_tokens: 2048,
-      system: [
-        {
-          type: "text",
-          text: anthropicMessage,
-          cache_control: {type: "ephemeral"}
-        },
-      ],
+      system: {
+        type: "text",
+        text: anthropicMessage,
+        cache_control: {type: "ephemeral"}
+      },
       messages: [
           { 
             role: "user", 

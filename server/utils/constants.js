@@ -14,7 +14,7 @@ WINNING_COMBINATIONS = [
 ]
 `
 
-export const INSTRUCTIONS = `
+const INSTRUCTIONS = `
 You are playing Tic-Tac-Toe on a 1x9 array with indices labeled from 0 to 8.
 
 You play as 'o' and your opponent (human) plays as 'x'.
@@ -43,7 +43,7 @@ Good Example:
 }
 `
 
-export const MINIMAX = `
+const MINIMAX = `
 Here’s how you can use Minimax in Tic Tac Toe:
 
 1. **Game Tree Construction**:
