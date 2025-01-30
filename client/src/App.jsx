@@ -19,9 +19,10 @@ export default function App() {
     const preRender = async () => {
       await  axios
       .post(
-        "https://react-tictactoe-game.onrender.com/",
+        "https://react-tictactoe-game.onrender.com/prerender",
         {headers: {'Content-Type': 'application/json'}}
       )
+      .then((res) => {console.log(res.data);})  // send back response
       .catch((err) => {console.error(err);});
     }
     preRender()
