@@ -4,23 +4,23 @@ const cors = require('cors');
 const app = express();
 const PORT = 8080;
 const corsOptions = {
-  origin: 'https://react-tictactoe-ipior.netlify.app',
+  // origin: 'https://react-tictactoe-ipior.netlify.app',
+  origin: '*'  // remove later ----------------------------------
 }
 
 app.use(cors(corsOptions));
 app.use(express.json());
-// claude.claudePreRender();
+claude.claudePreRender();
 
 app.post('/claude', (req, res) => {
-  const { gameState, availableMoves } = req.body;
-  console.log(`Received request with gameState: ${JSON.stringify(gameState)} and available moves: ${JSON.stringify(availableMoves)}`);
+  const { gameState } = req.body;
+  console.log(`Received request with gameState: ${JSON.stringify(gameState)}`);
 
-  claude.getMoveFromClaude(gameState, availableMoves)
+  claude.getMoveFromClaude(gameState)
     .then(response => {
       console.log(JSON.stringify(response));
       try {
-
-        res.json(response.index); // send back response
+        res.json(response); // send back response
       }
       catch {
         console.error('Error while sending response to client');

@@ -14,13 +14,14 @@ export default function MainSection(props) {
   const fetchAPI = async () => {
       await axios
         .post(
-          "https://react-tictactoe-game.onrender.com/claude", 
-          {gameState: gameState, availableMoves: availableMoves},
+          "http://localhost:8080/claude", //Remove later-------------------------------------------------
+          // "https://react-tictactoe-game.onrender.com/claude", 
+          {gameState: gameState},
           {headers: {'Content-Type': 'application/json'}}
         )
         .then(res => {
-          console.log(res.data);
-          updateGameboard(res.data);
+          console.log(res.data)
+          setGameState(res.data.gamestate);
         })
         .catch((err) => { //if there is an error, do a random move
           console.error(err);

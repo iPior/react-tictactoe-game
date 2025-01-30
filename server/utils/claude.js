@@ -1,29 +1,26 @@
 import Anthropic from '@anthropic-ai/sdk';
 import * as dotenv from 'dotenv'
-import { ANTHROPIC_PROMPT, ANTHROPIC_PROMPT_OLD } from './constants.js';
+import { anthropicMessage } from './constants.js';
 dotenv.config()
 
 const anthropic = new Anthropic();
 
-export async function getMoveFromClaude(gameBoard, availableMoves) {
+export async function getMoveFromClaude(gameBoard) {
     try{ 
       const msg = await anthropic.messages.create({
         model: "claude-3-5-sonnet-20241022", // claude-3-haiku-20240307
         max_tokens: 2048,
         system: [
-        {
-          type: "text",
-          text: ANTHROPIC_PROMPT_OLD,
-          cache_control: {type: "ephemeral"}
-        },
-      ],
+          {
+            type: "text",
+            text: anthropicMessage,
+            cache_control: {type: "ephemeral"}
+          },
+        ],
         messages: [
           { 
             role: "user", 
-            content: JSON.stringify({
-                gameState: gameBoard,
-                availableMoves: availableMoves
-            }),
+            content: JSON.stringify({ gameState: gameBoard }),
           }
         ],
       });
@@ -43,14 +40,14 @@ export async function claudePreRender() {
       system: [
         {
           type: "text",
-          text: ANTHROPIC_PROMPT_OLD,
+          text: anthropicMessage,
           cache_control: {type: "ephemeral"}
         },
       ],
       messages: [
           { 
             role: "user", 
-            content: "Preloading prompt. Please remember to return only a valid JSON object containing a single 'index' field, which is a number between 0-8 representing the index of the position you want to play",
+            content: "Preloading prompt. Do not reply until the next message.",
           }
         ],
     });
