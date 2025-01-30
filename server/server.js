@@ -4,8 +4,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 8080;
 const corsOptions = {
-  // origin: 'https://react-tictactoe-ipior.netlify.app',
-  origin: '*'  // remove later ----------------------------------
+  origin: 'https://react-tictactoe-ipior.netlify.app',
 }
 
 app.use(cors(corsOptions));
