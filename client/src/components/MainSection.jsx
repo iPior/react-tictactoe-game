@@ -2,6 +2,7 @@ import GameBoard from "./GameBoard"
 import GameboardHeader from "./GameBoardHeader";
 import { useState, useEffect } from "react"
 import axios from "axios";
+import { getRandomFreeIndex } from "../lib/utils";
 
 export default function MainSection(props) {
   const [gameState, setGameState] = useState(["","","","","","","","",""]);
@@ -9,7 +10,6 @@ export default function MainSection(props) {
   const [playersTurn, setPlayersTurn] = useState(props.whoGoesFirst)
   const [isGameWon, setIsGameWon] = useState(false)
   const [isGameDrawn, setIsGameDrawn] = useState(false)
-  const [availableMoves, setAvailableMoves] = useState([0,1,2,3,4,5,6,7,8])
 
   const fetchAPI = async () => {
       await axios
@@ -25,7 +25,7 @@ export default function MainSection(props) {
         .catch((err) => { //if there is an error, do a random move
           console.error(err);
           alert("Error while communicating with Claude. Taking a random move.")
-          const randomIndex = Math.floor(Math.random()*availableMoves.length)
+          const randomIndex = getRandomFreeIndex(gameState)
           updateGameboard(randomIndex)
         });
         
@@ -85,12 +85,6 @@ export default function MainSection(props) {
         newArray[index] = playersTurn ? "x" : "o"
         return newArray
       })
-      setAvailableMoves(prev => {
-        const newArray = [... prev]
-        const newIndex = newArray.findIndex(element => element === index)
-        newArray.splice(newIndex, 1);
-        return newArray;
-      })
     }
   }
 
@@ -100,7 +94,6 @@ export default function MainSection(props) {
     setIsGameDrawn(false)
     setPlayersTurn(goFirst)
     setWinningElements([])
-    setAvailableMoves([0,1,2,3,4,5,6,7,8]);
   }
   
   return (
