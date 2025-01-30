@@ -12,6 +12,7 @@ app.use(express.json());
 
 app.post('/prerender', (req, res) => {
   claude.claudePreRender()
+    .then(response => { res.json(response) })
     .catch((err) => {
       res.status(500).json({ message: `Error while communicating with Claude. Error: ${err}` }); // send back error
     });
