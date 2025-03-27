@@ -1,5 +1,5 @@
 # Tic Tac Toe
-A webapp developed to practice React. This project is a simple implementation of the classic Tic Tac Toe game, allowing users to play against each other in a fun and interactive way. The game features a clean interface and provides real-time feedback on the game state.
+A webapp developed to practice React. This project is a simple implementation of the classic Tic Tac Toe game, allowing users to play against Anthropic's Claude AI in a fun and interactive way. The game features a clean interface and provides real-time feedback on the game state.
 
 ## Table of Contents
 - [Technologies Used](#technologies-used)
